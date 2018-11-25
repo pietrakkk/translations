@@ -1,3 +1,0 @@
-flask-restplus==0.12.1
-flask-cors==3.0.7
-``
