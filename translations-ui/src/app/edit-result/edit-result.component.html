@@ -1,0 +1,6 @@
+<div class="col-md-12" *ngIf="display">
+  <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+  <hr class="divider">
+  <button class="btn btn-primary" (click)="onExport()">Eksport</button>
+  <button class="btn btn-primary" (click)="onCancel()">Anuluj</button>
+</div>

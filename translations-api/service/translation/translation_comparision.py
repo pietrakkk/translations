@@ -52,7 +52,7 @@ class TranslationsComparisionService:
     def _has_invalid_translation(valid: str, to_check: str) -> bool:
         return valid.lower() != TranslationsComparisionService.EMPTY_TRANSLATION and \
                (to_check == TranslationsComparisionService.EMPTY_TRANSLATION or
-                valid.lower() == to_check.lower)
+                valid.lower() == to_check.lower())
 
     @staticmethod
     def fill_transcription_file(data_to_fill: dict, file_path: str):
