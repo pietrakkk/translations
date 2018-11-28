@@ -12,6 +12,4 @@ CORS(translator_app)
 api.init_app(translator_app)
 
 if __name__ == '__main__':
-    translator_app.run(debug=True)
-
-
+    translator_app.run(debug=False)

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MainService } from '../service/main.service';
 import { Translation } from "../models/translation";
 import { ApiService } from '../service/api.service';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-result',
@@ -44,22 +45,27 @@ export class EditResultComponent implements OnInit {
   };
 
   data = [];
+  url: SafeUrl;
 
-  constructor(private mainService: MainService, private apiService: ApiService) { }
+  constructor(
+    private mainService: MainService,
+    private apiService: ApiService,
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.mainService.showEditResult.subscribe((response: any) => {
       this.sessionKey = response.session_key
       this.data = response.comparision_result;
       this.display = true;
+      this.url = null;
     });
   }
 
   onExport() {
     this.apiService.fixTranslations(this.data, this.sessionKey)
       .subscribe(
-        (translations) => {
-          // https://stackoverflow.com/questions/42360665/angular2-to-export-download-json-file
+        (fixed_file) => {
+          this.generateDownloadJsonUri(fixed_file);
         },
         (response) => {
           this.error = response.error;
@@ -67,7 +73,19 @@ export class EditResultComponent implements OnInit {
   }
 
   onCancel() {
+    if (confirm("Czy na pewno chcesz przerwać naprawę translacji?")) {
+      this.apiService.removeTranslationFile(this.sessionKey).subscribe(() => {
+        this.mainService.setShowImportResult(true);
+        this.display = false;
+      });
+    }
+  }
 
+  generateDownloadJsonUri(fixed_file) {
+    let theJSON = JSON.stringify(fixed_file);
+    let uri = this.sanitizer.
+      bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+    this.url = uri;
   }
 
 }

@@ -21,15 +21,26 @@ export class ApiService {
   }
 
   fixTranslations(payload: Translation[], sessionKey: string): Observable<any> {
-    //TODO: move to interceptor
+    return this.http.post(
+      `${environment.apiUrl}${AppConstants.API_ENDPOINTS.FIX_TRANSLATIONS}`,
+      payload,
+      this._getOptions(sessionKey)
+    );
+  }
+
+  removeTranslationFile(sessionKey: string): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}${AppConstants.API_ENDPOINTS.CANCEL_FIX_TRANSLATIONS}`,
+      {},
+      this._getOptions(sessionKey)
+    );
+  }
+
+  _getOptions(sessionKey: string) {
     let headers = new HttpHeaders();
     headers = headers.set('Session-Key', sessionKey);
     let options = { headers: headers };
 
-    return this.http.post(
-      `${environment.apiUrl}${AppConstants.API_ENDPOINTS.FIX_TRANSLATIONS}`,
-      payload,
-      options
-    );
+    return options;
   }
 }

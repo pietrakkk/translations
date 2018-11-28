@@ -7,9 +7,14 @@ import { Translation } from "../models/translation";
 })
 export class MainService {
   public showEditResult = new Subject<Object>();
+  public showImportResult = new Subject<boolean>();
 
   setEditResultFlag(value: Object) {
     this.showEditResult.next(value);
+  }
+
+  setShowImportResult(value: boolean) {
+    this.showImportResult.next(value);
   }
 
   constructor() { }

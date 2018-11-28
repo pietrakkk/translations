@@ -1,6 +1,16 @@
+
 <div class="col-md-12" *ngIf="display">
+  <div class="alert alert-danger" *ngIf="error">
+    <span *ngIf="error.message">{{error.message}}</span>
+    <span *ngIf="!error.message">Błąd serwera</span>
+  </div>
+  <div>
+    <button class="btn btn-success" (click)="onExport()">Eksport</button>&nbsp;
+    <button class="btn btn-danger" (click)="onCancel()">Anuluj</button>&nbsp;
+    <button class="btn btn-info pull-right" (click)="onCancel()">Nowa naprawa</button>
+    <a *ngIf="url" class="btn btn-clear center-block" title="Kliknij aby pobrać"
+    [href]="url" download="translation.json">Kliknij aby pobrać</a>
+    <hr class="divider">
+  </div>
   <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
-  <hr class="divider">
-  <button class="btn btn-primary" (click)="onExport()">Eksport</button>
-  <button class="btn btn-primary" (click)="onCancel()">Anuluj</button>
 </div>

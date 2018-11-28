@@ -16,6 +16,12 @@ export class ImportFormComponent implements OnInit {
   constructor(private apiService: ApiService, private mainService: MainService) { }
 
   ngOnInit() {
+    this.mainService.showImportResult.subscribe((showImportForm: boolean) => {
+      this.display = showImportForm;
+      this.error = null;
+      this.formData = new FormData();
+    });
+
   }
 
   onSubmit() {
@@ -30,7 +36,16 @@ export class ImportFormComponent implements OnInit {
         });
   }
 
+  isSubmitEnabled() {
+    return this.formData.has('valid_translation') &&
+      this.formData.has('translation_to_fix')
+  }
+
   onFileChange($event, controlName) {
+    if (this.formData.has(controlName)) {
+      this.formData.delete(controlName);
+    }
+
     this.formData.append(controlName, $event.target.files[0]);
   }
 

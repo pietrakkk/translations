@@ -6,7 +6,6 @@ compare_translation = ns.model('CompareTranslations', {
     'key': fields.String,
     'valid_translation': fields.String,
     'translation_to_fix': fields.String,
-    'is_missing': fields.Boolean,
 })
 
 compare_result_model = ns.model('CompareResult', {
