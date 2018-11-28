@@ -4,12 +4,10 @@ from typing import List
 
 class InvalidTranslation:
 
-    def __init__(self, key: str, valid_translation: str,
-                 translation_to_fix: str = None, is_missing: bool = False):
-        self.key = key
+    def __init__(self, key: str, valid_translation: str, translation_to_fix: str = None):
         self.valid_translation = valid_translation
         self.translation_to_fix = translation_to_fix
-        self.is_missing = is_missing
+        self.key = key
 
 
 class TranslationResponse:
@@ -35,7 +33,6 @@ class TranslationsComparisionService:
                     key=key,
                     valid_translation=value,
                     translation_to_fix=None,
-                    is_missing=True
                 ))
                 continue
 
@@ -52,7 +49,7 @@ class TranslationsComparisionService:
     def _has_invalid_translation(valid: str, to_check: str) -> bool:
         return valid.lower() != TranslationsComparisionService.EMPTY_TRANSLATION and \
                (to_check == TranslationsComparisionService.EMPTY_TRANSLATION or
-                valid.lower() == to_check.lower)
+                valid.lower() == to_check.lower())
 
     @staticmethod
     def fill_transcription_file(data_to_fill: dict, file_path: str):
@@ -60,8 +57,7 @@ class TranslationsComparisionService:
             data = json.load(f)
 
             for item in data_to_fill:
-                for key, value in item.items():
-                    data[key] = value
+                data[item['key']] = item['translation_to_fix']
 
             f.seek(0)
             json.dump(data, f, indent=4)

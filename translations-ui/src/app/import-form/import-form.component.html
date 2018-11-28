@@ -1,0 +1,28 @@
+<div *ngIf="display">
+<div class="alert alert-danger" *ngIf="error">
+  <span *ngIf="error.message">{{error.message}}</span>
+  <span *ngIf="!error.message">Błąd serwera</span>
+</div>
+<div class="col-md-12">
+  <div class="row import-form">
+    <div class="col-md-12">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="validTranslation">Bazowy plik</label>
+          <input type="file" class="form-control-file"
+            accept="application/json"
+            (change)="onFileChange($event, 'valid_translation')" required>
+        </div>
+        <div class="form-group">
+          <label for="translationToFix">Plik do poprawy</label>
+          <input type="file" class="form-control-file"
+            accept="application/json"
+            (change)="onFileChange($event, 'translation_to_fix')" required>
+        </div>
+            <input type="submit" [disabled]="!isSubmitEnabled()"
+            class="btn btn-primary" value="Sprawdź!" >
+        </form>
+    </div>
+  </div>
+  </div>
+</div>

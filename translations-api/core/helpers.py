@@ -9,9 +9,10 @@ def read_json_content(input_file: FileStorage):
         return json.loads(input_file.read())
 
     except JSONDecodeError:
-        raise ValueError(f'Invalid json format in file {input_file.name}')
+        raise ValueError(f'Nieprawidłowy format pliku {input_file.filename} .')
 
 
 def save_json_file(file_path, content: dict):
     with open(file_path, 'w') as f:
         json.dump(content, f)
+

@@ -73,3 +73,25 @@ class FixTranslation(Resource):
             filename,
             as_attachment=True
         )
+
+
+@ns.route('/fix/cancel/')
+class CancelTranslation(Resource):
+
+    def post(self):
+        if not request.headers.get('Session-Key'):
+            ns.abort(400, message='Session-Key header missing')
+
+        from app import translator_app
+        filename = f'{request.headers["Session-Key"]}.json'
+        file_path = os.path.join(
+            translator_app.config['SAVE_DIRECTORY'],
+            filename
+        )
+
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        else:
+            ns.abort(400, message=f'File {filename} does not exists.')
+
+        return 200, {}
